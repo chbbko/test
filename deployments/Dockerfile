@@ -1,0 +1,36 @@
+FROM golang:1.16.5-alpine as builder
+
+ENV GO111MODULE=on
+WORKDIR /go/src/github.com/test
+
+COPY . .
+#COPY core /go/src/github.com/daycash/core
+
+RUN go mod download
+RUN go build -o test-apis main.go
+
+FROM alpine:latest
+RUN apk update && apk add --no-cache ca-certificates && apk add --no-cache tzdata
+
+COPY --from=Builder /go/src/github.com/test/test-apis /test-apis
+
+ARG POSTGRES_HOST
+ENV POSTGRES_HOST=${POSTGRES_HOST}
+
+ARG POSTGRES_PORT
+ENV POSTGRES_PORT=${POSTGRES_PORT}
+
+ARG POSTGRES_DBNAME
+ENV POSTGRES_DBNAME=${POSTGRES_DBNAME}
+
+ARG POSTGRES_USER
+ENV POSTGRES_USER=${POSTGRES_USER}
+
+ARG POSTGRES_PASSWORD
+ENV POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+
+RUN rm -f /etc/localtime
+RUN cp /usr/share/zoneinfo/Asia/Bangkok /etc/localtime
+
+CMD ./test-apis -config=/etc/configs/apis/admin.json
+EXPOSE 9098

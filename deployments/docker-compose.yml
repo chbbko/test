@@ -1,0 +1,97 @@
+version: "2"
+
+services:
+  postgres:
+    image: postgres:alpine
+    container_name: postgres
+    hostname: postgres
+    volumes:
+      - ../init/database.sql:/docker-entrypoint-initdb.d/init.sql
+    environment:
+      - GET_HOSTS_FROM=dns
+      - POSTGRES_DB=test
+      - POSTGRES_USER=test
+      - POSTGRES_PASSWORD=secret
+    ports:
+      - "4444:4444"
+    networks:
+      - test
+  test-apis:
+    environment:
+      - TZ="Asia/Bangkok"
+    build:
+      context: ${GOPATH}/src/github.com
+      dockerfile: test/deployments/Dockerfile.dev
+      args:
+        - POSTGRES_HOST=postgres
+        - POSTGRES_PORT=4444
+        - POSTGRES_DBNAME=test
+        - POSTGRES_USER=test
+        - POSTGRES_PASSWORD=secret
+    ports:
+      - "9098:9098"
+    depends_on:
+      - postgres
+    links:
+      - postgres
+    networks:
+      - test
+
+networks:
+  test:
+
+
+#version: '3.3'
+#
+#services:
+#  test-apis:
+#    build:
+#      context: ${GOPATH}/src/github.com
+#      dockerfile: test/deployments/Dockerfile.dev
+#    ports:
+#      - "1082:880"
+#    restart: always
+#    depends_on:
+#      - db-1
+#    environment:
+#      - ENV=development
+#      - TZ="Asia/Bangkok"
+#    networks:
+#      testx:
+#        ipv4_address: 10.100.0.42
+#  db-1:
+#    image: mariadb:10.2
+#    command: mysqld --character-set-server=utf8 --collation-server=utf8_general_ci
+#    volumes:
+#      - ../init/database.sql:/docker-entrypoint-initdb.d/init.sql
+#    restart: always
+#    ports:
+#      - "3366:3306"
+#    environment:
+#      MYSQL_ROOT_PASSWORD: localpass
+#      MYSQL_DATABASE: test
+#      MYSQL_USER: admin
+#      MYSQL_PASSWORD: localpass
+#    healthcheck:
+#      test: "mysql -u admin -plocalpass test -e \"show tables\""
+#      interval: 1m30s
+#      timeout: 10s
+#      retries: 3
+#    networks:
+#      testx:
+#        ipv4_address: 10.100.0.40
+#
+#  test-phpmyadmin:
+#    image: phpmyadmin/phpmyadmin:latest
+#    restart: always
+#    ports:
+#      - "11181:80"
+#    environment:
+#      PMA_HOST: db-1
+#      PMA_USER: admin
+#      PMA_PASSWORD: localpass
+#    logging:
+#      driver: none
+#    networks:
+#      testx:
+#        ipv4_address: 10.100.0.41
