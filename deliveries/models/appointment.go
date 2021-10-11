@@ -1,6 +1,9 @@
 package models
 
-import "github.com/test/entities"
+import (
+	"github.com/test/entities"
+	"github.com/jinzhu/copier"
+)
 
 type Patience struct {
 	PinCode string `json:"pin_code"`

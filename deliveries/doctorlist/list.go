@@ -2,9 +2,9 @@ package doctorlist
 
 import (
 	"fmt"
+	"github.com/gin-gonic/gin"
 	"github.com/test/deliveries/models"
 	"net/http"
-	"github.com/gin-gonic/gin"
 )
 
 func (h *doctorHandler) List(ctx *gin.Context) {

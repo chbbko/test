@@ -4,13 +4,21 @@ import (
 	"github.com/test/entities"
 	"net/http"
 	"github.com/gin-gonic/gin"
-
+	"strconv"
 )
 
 func (h *appointmentHandler) Delete(ctx *gin.Context) {
 	var toDelete entities.AppointmentDelete
-	id := ctx.Param("id")
-	toDelete.ID = id
+	idstr := ctx.Param("id")
+	id, err := strconv.Atoi(idstr)
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, models.ErrorResponse{
+			Message: "error",
+			Status: "fails",
+		})
+		return
+	}
+	toDelete.ID = uint(id)
 	//TODO:: validate struct
 
 	result := h.appointmentUseCase.Cancel(toDelete)
