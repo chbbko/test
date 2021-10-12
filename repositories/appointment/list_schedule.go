@@ -8,16 +8,17 @@ import (
 	"github.com/test/repositories/models"
 )
 
-func (r *appointmentRepository) ListAppointment(params entities.AppointmentListParams) ([]entities.AppointmentList, error) {
-	var m []models.Appointment
-	var e []entities.AppointmentList
-	//TODO:: preload booker details
+func (r *appointmentRepository) ListSchedule(params entities.ScheduleParams) ([]entities.ScheduleList, error) {
+	var m []models.Schedule
+	var e []entities.ScheduleList
+
 	db := r.dbpg
-	db = db.Model(&models.Appointment{})
+	db = db.Model(&models.Schedule{})
 	db = db.Select("*")
 	if params.DoctorID != "" {
 		db = db.Where("UPPER(doctor_id) = ?", fmt.Sprintf("%s", params.DoctorID))
 	}
+	//db.Table("users").Select("users.name, emails.email").Joins("left join emails on emails.user_id = users.id").Scan(&results)
 
 	result := db.Find(&m)
 	if result.Error != nil && !errors.Is(result.Error, gorm.ErrRecordNotFound) {
