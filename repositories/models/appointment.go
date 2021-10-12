@@ -9,6 +9,6 @@ type Appointment struct {
 	DoctorID string
 	Phone string
 	Ref string
-	Start *time.Time
-	End *time.Time
+	Start time.Time
+	End time.Time
 }
