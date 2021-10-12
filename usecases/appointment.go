@@ -4,4 +4,5 @@ type AppointmentUseCase interface {
 	List(entities.AppointmentListParams) ([]entities.AppointmentList,error)
 	Cancel(entities.AppointmentDelete) error
 	Create(entities.AppointmentCreate) error
+	ListSchedule(params entities.ScheduleParams) ([]entities.ScheduleList,error)
 }
