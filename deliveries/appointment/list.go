@@ -23,6 +23,7 @@ func (h *appointmentHandler) List(ctx *gin.Context) {
 			Message: "error on binding data",
 			Status: "fails",
 		})
+		return
 	}
 	result,err := h.appointmentUseCase.List(params)
 	if err != nil{
@@ -30,6 +31,7 @@ func (h *appointmentHandler) List(ctx *gin.Context) {
 			Message: "error from repositories",
 			Status: "fails",
 		})
+		return
 	}
 	m := models.ToModelAppointmentList(result)
 
