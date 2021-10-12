@@ -50,9 +50,13 @@ func getGormConnect() *gorm.DB {
 	return db
 }
 
+func makeDate(y,mo,d,h,m int ) *time.Time{
+	x := time.Date(int(y),time.Month(mo),int(d),int(h),int(m),int(0),int(0),time.UTC)
+	return &x
+}
+
+
 func doMigrate(db *gorm.DB) {
-	x := time.Date(int(2021),time.October,int(11),int(8),int(0),int(0),int(0),time.UTC)
-	x2 := time.Date(int(2021),time.October,int(11),int(8),int(15),int(0),int(0),time.UTC)
 	db.AutoMigrate(
 		&models.Doctor{},
 		&models.Patience{},
@@ -97,8 +101,178 @@ func doMigrate(db *gorm.DB) {
 		Model: gorm.Model{ID:1},
 		Ref: "X1",
 		DoctorID: "001",
-		Start: &x,
-		End: &x2,
+		Start: makeDate(2021,10,11,8,0),
+		End: makeDate(2021,10,11,9,0),
+	})
+	db.Save(&models.Schedule{
+		Model: gorm.Model{ID:2},
+		Ref: "X2",
+		DoctorID: "001",
+		Start: makeDate(2021,10,11,9,1),
+		End: makeDate(2021,10,11,10,0),
+	})
+	db.Save(&models.Schedule{
+		Model: gorm.Model{ID:3},
+		Ref: "X3",
+		DoctorID: "001",
+		Start: makeDate(2021,10,11,10,1),
+		End: makeDate(2021,10,11,11,0),
+	})
+	db.Save(&models.Schedule{
+		Model: gorm.Model{ID:4},
+		Ref: "X4",
+		DoctorID: "001",
+		Start: makeDate(2021,10,11,11,1),
+		End: makeDate(2021,10,11,12,0),
+	})
+	db.Save(&models.Schedule{
+		Model: gorm.Model{ID:5},
+		Ref: "X5",
+		DoctorID: "001",
+		Start: makeDate(2021,10,13,8,0),
+		End: makeDate(2021,10,13,9,0),
+	})
+	db.Save(&models.Schedule{
+		Model: gorm.Model{ID:6},
+		Ref: "X6",
+		DoctorID: "001",
+		Start: makeDate(2021,10,13,9,1),
+		End: makeDate(2021,10,13,10,0),
+	})
+	db.Save(&models.Schedule{
+		Model: gorm.Model{ID:7},
+		Ref: "X7",
+		DoctorID: "001",
+		Start: makeDate(2021,10,13,10,1),
+		End: makeDate(2021,10,13,11,0),
+	})
+	db.Save(&models.Schedule{
+		Model: gorm.Model{ID:8},
+		Ref: "X8",
+		DoctorID: "001",
+		Start: makeDate(2021,10,13,11,1),
+		End: makeDate(2021,10,13,12,0),
+	})
+	db.Save(&models.Schedule{
+		Model: gorm.Model{ID:9},
+		Ref: "X9",
+		DoctorID: "001",
+		Start: makeDate(2021,10,15,8,0),
+		End: makeDate(2021,10,15,9,0),
+	})
+	db.Save(&models.Schedule{
+		Model: gorm.Model{ID:10},
+		Ref: "X10",
+		DoctorID: "001",
+		Start: makeDate(2021,10,15,9,1),
+		End: makeDate(2021,10,15,10,0),
+	})
+	db.Save(&models.Schedule{
+		Model: gorm.Model{ID:11},
+		Ref: "X11",
+		DoctorID: "001",
+		Start: makeDate(2021,10,15,10,1),
+		End: makeDate(2021,10,15,11,0),
+	})
+	db.Save(&models.Schedule{
+		Model: gorm.Model{ID:12},
+		Ref: "X12",
+		DoctorID: "001",
+		Start: makeDate(2021,10,15,11,1),
+		End: makeDate(2021,10,15,12,0),
+	})
+	db.Save(&models.Schedule{
+		Model: gorm.Model{ID:13},
+		Ref: "V01",
+		DoctorID: "002",
+		Start: makeDate(2021,10,12,13,0),
+		End: makeDate(2021,10,12,13,30),
+	})
+	db.Save(&models.Schedule{
+		Model: gorm.Model{ID:14},
+		Ref: "V02",
+		DoctorID: "002",
+		Start: makeDate(2021,10,12,13,31),
+		End: makeDate(2021,10,12,14,0),
+	})
+	db.Save(&models.Schedule{
+		Model: gorm.Model{ID:15},
+		Ref: "V03",
+		DoctorID: "002",
+		Start: makeDate(2021,10,12,14,1),
+		End: makeDate(2021,10,12,14,30),
+	})
+	db.Save(&models.Schedule{
+		Model: gorm.Model{ID:16},
+		Ref: "V04",
+		DoctorID: "002",
+		Start: makeDate(2021,10,12,14,31),
+		End: makeDate(2021,10,12,15,0),
+	})
+	db.Save(&models.Schedule{
+		Model: gorm.Model{ID:17},
+		Ref: "V05",
+		DoctorID: "002",
+		Start: makeDate(2021,10,14,13,0),
+		End: makeDate(2021,10,14,13,30),
+	})
+	db.Save(&models.Schedule{
+		Model: gorm.Model{ID:18},
+		Ref: "V06",
+		DoctorID: "002",
+		Start: makeDate(2021,10,14,13,31),
+		End: makeDate(2021,10,14,14,0),
+	})
+	db.Save(&models.Schedule{
+		Model: gorm.Model{ID:19},
+		Ref: "V07",
+		DoctorID: "002",
+		Start: makeDate(2021,10,14,14,1),
+		End: makeDate(2021,10,14,14,30),
+	})
+	db.Save(&models.Schedule{
+		Model: gorm.Model{ID:20},
+		Ref: "V08",
+		DoctorID: "002",
+		Start: makeDate(2021,10,14,14,31),
+		End: makeDate(2021,10,14,15,0),
+	})
+	db.Save(&models.Schedule{
+		Model: gorm.Model{ID:21},
+		Ref: "V09",
+		DoctorID: "002",
+		Start: makeDate(2021,10,16,13,0),
+		End: makeDate(2021,10,16,13,30),
+	})
+	db.Save(&models.Schedule{
+		Model: gorm.Model{ID:22},
+		Ref: "V10",
+		DoctorID: "002",
+		Start: makeDate(2021,10,16,13,31),
+		End: makeDate(2021,10,16,14,0),
+	})
+	db.Save(&models.Schedule{
+		Model: gorm.Model{ID:23},
+		Ref: "V11",
+		DoctorID: "002",
+		Start: makeDate(2021,10,16,14,1),
+		End: makeDate(2021,10,16,14,30),
+	})
+	db.Save(&models.Schedule{
+		Model: gorm.Model{ID:24},
+		Ref: "V12",
+		DoctorID: "002",
+		Start: makeDate(2021,10,16,14,31),
+		End: makeDate(2021,10,16,15,0),
+	})
+	db.Save(&models.Appointment{
+		Model: gorm.Model{ID:1},
+		PatiencePinCode: "333333",
+		DoctorID: "001",
+		Phone: "0810000003",
+		Start: *makeDate(2021,10,15,10,1),
+		End: *makeDate(2021,10,15,11,0),
+		Ref: "X11",
 	})
 }
 
