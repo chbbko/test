@@ -1,15 +1,15 @@
 package appointment
+
 import (
-	"fmt"
+	"github.com/gin-gonic/gin"
+	"github.com/jinzhu/copier"
 	"github.com/test/deliveries/models"
 	"github.com/test/entities"
 	"net/http"
-	"github.com/gin-gonic/gin"
-	"github.com/jinzhu/copier"
 )
 
-func (h *appointmentHandler) List(ctx *gin.Context) {
-	var qString models.AppointmentQueryString
+func (h *appointmentHandler) ListSchedule(ctx *gin.Context) {
+	var qString models.ScheduleQueryString
 	err := ctx.BindQuery(&qString)
 	if err != nil {
 		ctx.JSON(http.StatusBadRequest, models.ErrorResponse{
@@ -18,7 +18,7 @@ func (h *appointmentHandler) List(ctx *gin.Context) {
 		})
 		return
 	}
-	var params entities.AppointmentListParams
+	var params entities.ScheduleParams
 	if copyError := copier.Copy(&params, qString); copyError != nil {
 		ctx.JSON(http.StatusInternalServerError, models.ErrorResponse{
 			Message: "error on binding data",
@@ -26,7 +26,7 @@ func (h *appointmentHandler) List(ctx *gin.Context) {
 		})
 		return
 	}
-	result,err := h.appointmentUseCase.List(params)
+	result,err := h.appointmentUseCase.ListSchedule(params)
 	if err != nil{
 		ctx.JSON(http.StatusInternalServerError, models.ErrorResponse{
 			Message: "error from repositories",
@@ -34,9 +34,9 @@ func (h *appointmentHandler) List(ctx *gin.Context) {
 		})
 		return
 	}
-	fmt.Println("----> result", result)
-	m := models.ToModelAppointmentList(result)
-	fmt.Println("----> m", m)
+
+	m := models.ToModelScheduleList(result)
+
 	x := models.SuccessResponse{
 		Success: models.Success{
 			Status:  "200",

@@ -15,4 +15,5 @@ func NewEndpointHttpHandler(ginEng *gin.Engine, uc usecases.AppointmentUseCase) 
 	r.GET("/appointment", handler.List)
 	r.POST("/appointment", handler.Create)
 	r.DELETE("/appointment/:id", handler.Delete)
+	r.GET("/schedule", handler.ListSchedule)
 }
